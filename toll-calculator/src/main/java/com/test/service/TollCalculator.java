@@ -1,3 +1,8 @@
+package com.test.service;
+
+import com.test.constant.TollFreeVehicles;
+import com.test.model.Vehicle;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -90,22 +95,5 @@ public class TollCalculator {
     return false;
   }
 
-  private enum TollFreeVehicles {
-    MOTORBIKE("Motorbike"),
-    TRACTOR("Tractor"),
-    EMERGENCY("Emergency"),
-    DIPLOMAT("Diplomat"),
-    FOREIGN("Foreign"),
-    MILITARY("Military");
-    private final String type;
-
-    TollFreeVehicles(String type) {
-      this.type = type;
-    }
-
-    public String getType() {
-      return type;
-    }
-  }
 }
 

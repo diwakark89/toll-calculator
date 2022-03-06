@@ -1,3 +1,4 @@
+package com.test.model;
 
 public interface Vehicle {
 
