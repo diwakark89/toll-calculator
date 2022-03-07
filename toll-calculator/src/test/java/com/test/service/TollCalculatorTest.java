@@ -131,7 +131,21 @@ public class TollCalculatorTest {
 
         int val = calculator.getTollFee(new Car(), dates);
         System.out.println(val);
-        assertEquals( 39,val);
+        assertEquals( 60,val);
+    }
+
+    @Test
+    void shouldReturn_Total_Toll_Fee_forCar_if_Entries_in_Between_6And16_Hour() {
+
+        Date[] dates = {
+                getTimeBasedOn_Time(2, 3, 2003, 6, 0, 0),
+                getTimeBasedOn_Time(2, 3, 2003, 10, 15, 0),
+                getTimeBasedOn_Time(2, 3, 2003, 17, 58, 0)
+        };
+
+        int val = calculator.getTollFee(new Car(), dates);
+        System.out.println(val);
+        assertEquals( 29,val);
     }
 
     private Date getDefaultTime() {
