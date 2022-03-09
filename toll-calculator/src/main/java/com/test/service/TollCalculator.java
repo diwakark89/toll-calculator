@@ -53,6 +53,10 @@ public class TollCalculator {
                 vehicleType.equals(TollFreeVehicles.MILITARY.getType());
     }
 
+    /**
+     * Toll fees would be calculated for the rush hour between 6 AM -18 PM
+     */
+
     public int getTollFee(final Date date, Vehicle vehicle) {
 
         if (isTollFreeDate(date) || isTollFreeVehicle(vehicle)) return 0;
@@ -63,16 +67,16 @@ public class TollCalculator {
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
-        if (hour == 6 && minute >= 0 && minute <= 29) return 8;
-        else if (hour == 6 && minute >= 30 && minute <= 59) return 13;
-        else if (hour == 7 && minute >= 0 && minute <= 59) return 18;
-        else if (hour == 8 && minute >= 0 && minute <= 29) return 13;
-        else if (hour == 8 && minute >= 30 && minute <= 59) return 8;
-        else if (hour >= 9 && hour <= 14 && minute >= 0 && minute <= 59) return 8;
-        else if (hour == 15 && minute >= 0 && minute <= 29) return 13;
-        else if ((hour == 15 && (minute >= 30 && minute <= 59)) || ((hour == 16 && minute >= 0 && minute <= 59) ))return 18;
-        else if (hour == 17 && minute >= 0 && minute <= 59) return 13;
-        else if (hour == 18 && minute >= 0 && minute <= 29) return 8;
+        if (hour == 6 && minute <= 29) return 8;
+        else if (hour == 6) return 13;
+        else if (hour == 7) return 18;
+        else if (hour == 8 && minute <= 29) return 13;
+        else if (hour == 8) return 8;
+        else if (hour >= 9 && hour <= 14) return 8;
+        else if (hour == 15 && minute <= 29) return 13;
+        else if (hour == 15 || hour == 16) return 18;
+        else if (hour == 17) return 13;
+        else if (hour == 18 && minute <= 29) return 8;
 
         else return 0;
     }
@@ -88,22 +92,33 @@ public class TollCalculator {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) return true;
 
-        if (year == 2013) {
-            return isHoliday(month, day);
-        }
-
-        return false;
+        return isHoliday(year, month, day);
     }
 
-    private boolean isHoliday(int month, int day) {
-        return month == Calendar.JANUARY && day == 1 ||
-                month == Calendar.MARCH && (day == 28 || day == 29) ||
-                month == Calendar.APRIL && (day == 1 || day == 30) ||
-                month == Calendar.MAY && (day == 1 || day == 8 || day == 9) ||
-                month == Calendar.JUNE && (day == 5 || day == 6 || day == 21) ||
-                month == Calendar.JULY ||
-                month == Calendar.NOVEMBER && day == 1 ||
-                month == Calendar.DECEMBER && (day == 24 || day == 25 || day == 26 || day == 31);
+    /**
+     * We are calculating the year for 2013 and 2015 only
+     */
+    private boolean isHoliday(int year, int month, int day) {
+        if (year == 2013) {
+            return month == Calendar.JANUARY && day == 1 ||
+                    month == Calendar.MARCH && (day == 28 || day == 29) ||
+                    month == Calendar.APRIL && (day == 1 || day == 30) ||
+                    month == Calendar.MAY && (day == 1 || day == 8 || day == 9) ||
+                    month == Calendar.JUNE && (day == 5 || day == 6 || day == 21) ||
+                    month == Calendar.JULY ||
+                    month == Calendar.NOVEMBER && day == 1 ||
+                    month == Calendar.DECEMBER && (day == 24 || day == 25 || day == 26 || day == 31);
+        } else if (year == 2015) {
+            return month == Calendar.JANUARY && day == 5 ||
+                    month == Calendar.MARCH && (day == 29 || day == 30) ||
+                    month == Calendar.APRIL && (day == 1 || day == 29) ||
+                    month == Calendar.MAY && (day == 1 || day == 8 || day == 9) ||
+                    month == Calendar.JUNE && (day == 5 || day == 6 || day == 21) ||
+                    month == Calendar.JULY ||
+                    month == Calendar.NOVEMBER && day == 1 ||
+                    month == Calendar.DECEMBER && (day == 23 || day == 24 || day == 25 || day == 26 || day == 31);
+        }
+        return false;
     }
 
 }
